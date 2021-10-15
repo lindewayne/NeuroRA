@@ -21,8 +21,32 @@ def rdm_fmri(data):
         With shape [n_conditions, x, y, z]
     '''
     
+    # data handle
     data = sliding(data, (3, 3, 3), (-3, -2, -1))
     data = data.reshape(*data.shape[:-3], -1)
     data = np.moveaxis(data, 0, -2)
+    
+    # cal rdm
     rdm = omp(data)
+    
+    return rdm
+
+
+def rdm_eeg(data):
+    
+    """
+    Parameters
+    ----------
+    data : ndarray
+        [n_cons, n_subs, n_trials, n_chls, n_ts]
+    """
+    
+    # data handle
+    data = data.mean(-3) # [n_cons, n_subs, n_chls, n_ts]
+    data = data.reshape(*data.shape[:-2], -1)
+    data = np.moveaxis(data, 0, -2)
+    
+    # cal rdm
+    rdm = omp(data)
+    
     return rdm

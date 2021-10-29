@@ -9,9 +9,7 @@ def omp(arr):
     cx = arr.shape[-2:-1]
     r = np.zeros(ax + cx + cx)
     for i in pndindex(ax):
-        ri = 1 - np.corrcoef(arr[i])
-        ri[ri<1e-15] = 0
-        r[i] = ri
+        r[i] = 1 - np.corrcoef(arr[i])
     return r
 
 def rdm_fmri(data):
